@@ -1,0 +1,197 @@
+{
+  "decision": "Oracle (ORCL) five-year FCFF valuation workbench for a buy-side committee",
+  "as_of": "2026-10-16",
+  "units": "USD millions except per-share amounts and percentages",
+  "market_price": 128.23,
+  "material_inputs": {
+    "base_year_revenue": 67357.0,
+    "base_year_ebit": 22444.0,
+    "base_year_capex": 55663.0,
+    "bridge_cash": 37077.0,
+    "bridge_debt": 134522.0,
+    "bridge_other_claims": 4954.0,
+    "bridge_diluted_shares": 3031.501149,
+    "base_revenue_growth": [
+      0.22,
+      0.16,
+      0.12,
+      0.09,
+      0.07
+    ],
+    "base_ebit_margin": [
+      0.305,
+      0.307,
+      0.31,
+      0.315,
+      0.32
+    ],
+    "base_capex_to_revenue": [
+      0.62,
+      0.5,
+      0.39,
+      0.3,
+      0.24
+    ],
+    "base_wacc": 0.1193625,
+    "base_terminal_growth": 0.025
+  },
+  "scenario_per_share": {
+    "downside": -12.96,
+    "base": 19.42,
+    "upside": 44.06
+  },
+  "valuation_range": [
+    -12.96,
+    44.06
+  ],
+  "committee_action": "Watch / defer: do not initiate until cash conversion and funding evidence supports a durable FCFF recovery.",
+  "conditions": [
+    "Sustained improvement in FCFF after capacity spending",
+    "Net debt stable or declining without unsupported bridge adjustments",
+    "Evidence that the capex-intensity fade is credible"
+  ],
+  "base_case": {
+    "enterprise_value": 161281.2,
+    "equity_value": 58882.2,
+    "per_share": 19.42,
+    "terminal_value_share": 1.0414
+  },
+  "base_case_five_year_pro_forma": [
+    {
+      "year": 2027,
+      "revenue": 82175.5,
+      "ebit": 25063.5,
+      "net_income": 16423.7,
+      "cfo": 25571.5,
+      "capex": 50948.8,
+      "fcff": -21750.2,
+      "cash": 15000.0,
+      "debt": 138629.3,
+      "ppe": 141609.8,
+      "assets": 287271.0,
+      "liabilities_equity": 287271.0,
+      "balance_sheet_gap": 0.0
+    },
+    {
+      "year": 2028,
+      "revenue": 95323.6,
+      "ebit": 29264.4,
+      "net_income": 19529.9,
+      "cfo": 32568.1,
+      "capex": 47661.8,
+      "fcff": -11212.1,
+      "cash": 15000.0,
+      "debt": 153723.1,
+      "ppe": 176101.9,
+      "assets": 321894.6,
+      "liabilities_equity": 321894.6,
+      "balance_sheet_gap": 0.0
+    },
+    {
+      "year": 2029,
+      "revenue": 106762.5,
+      "ebit": 33096.4,
+      "net_income": 22172.8,
+      "cfo": 38435.9,
+      "capex": 41637.4,
+      "fcff": 1102.8,
+      "cash": 15000.0,
+      "debt": 156924.5,
+      "ppe": 201361.8,
+      "assets": 347268.9,
+      "liabilities_equity": 347268.9,
+      "balance_sheet_gap": 0.0
+    },
+    {
+      "year": 2030,
+      "revenue": 116371.1,
+      "ebit": 36656.9,
+      "net_income": 24931.6,
+      "cfo": 43562.2,
+      "capex": 34911.3,
+      "fcff": 13044.8,
+      "cash": 23650.9,
+      "debt": 156924.5,
+      "ppe": 217546.5,
+      "assets": 372200.5,
+      "liabilities_equity": 372200.5,
+      "balance_sheet_gap": 0.0
+    },
+    {
+      "year": 2031,
+      "revenue": 124517.1,
+      "ebit": 39845.5,
+      "net_income": 27482.5,
+      "cfo": 47632.8,
+      "capex": 29884.1,
+      "fcff": 22142.6,
+      "cash": 30000.0,
+      "debt": 145524.9,
+      "ppe": 227198.8,
+      "assets": 388283.4,
+      "liabilities_equity": 388283.4,
+      "balance_sheet_gap": 0.0
+    }
+  ],
+  "sensitivity": {
+    "10.9%": {
+      "2.0%": 25.110676675502294,
+      "2.5%": 29.02192317555118,
+      "3.0%": 33.425848738328554
+    },
+    "11.9%": {
+      "2.0%": 16.390667071892267,
+      "2.5%": 19.423445771812595,
+      "3.0%": 22.795473042681753
+    },
+    "12.9%": {
+      "2.0%": 9.35732009618631,
+      "2.5%": 11.760764396715912,
+      "3.0%": 14.405982653645033
+    }
+  },
+  "reverse_dcf": {
+    "target_price": 128.23,
+    "status": "no solution in predeclared search range",
+    "search_range": "uniform additive growth shift from -10.0 to +20.0 percentage points",
+    "low_endpoint_price": 10.356993647750935,
+    "high_endpoint_price": 47.545744536247376,
+    "held_fixed": "EBIT margins, capex path, tax rate, WACC, terminal growth, bridge"
+  },
+  "peer_references": {
+    "orcl_pe": 21.99485420240137,
+    "orcl_market_ev": 491128.3923362701,
+    "orcl_market_ev_revenue": 7.291423197830516,
+    "references": [
+      {
+        "peer": "MSFT",
+        "peer_pe": 29.473537604456823,
+        "pe_implied_orcl_price": 171.8307242339833,
+        "peer_ev_revenue": 11.73070479961668,
+        "basis": "Microsoft FY2026 Form 10-K, filed 2026-07-29: GAAP revenue 331,839; diluted EPS 17.95; cash 20,935 plus short-term investments 55,908; current debt 9,227 plus long-term debt 31,067; 7,427m shares outstanding. Price is the 2026-10-16 regular-session close. Qualified reference only because Intelligent Cloud and Dynamics overlap Oracle, while Productivity, gaming, search, and LinkedIn create material mix differences."
+      },
+      {
+        "peer": "CRM",
+        "peer_pe": 30.858974358974358,
+        "pe_implied_orcl_price": 179.9078205128205,
+        "peer_ev_revenue": 5.51653461770018,
+        "basis": "Salesforce FY2026 Form 10-K, filed 2026-03-02: GAAP revenue 41,525 and diluted EPS 7.80. Q2 FY2027 Form 10-Q, filed 2026-08-27: cash 8,310, long-term debt 39,288, and 823m common shares outstanding as of 2026-08-20. Price is the 2026-10-16 regular-session close. Qualified reference only: CRM/SaaS overlap is strong, but Salesforce has different infrastructure intensity and acquisition-related financing."
+      }
+    ],
+    "limitation": "Microsoft and Salesforce are qualified reference observations, not interchangeable peers or a mechanically averaged valuation range."
+  },
+  "checks": {
+    "base_year_balance_sheet": true,
+    "forecast_balance_sheets": true,
+    "cash_flow_ties_to_cash": true,
+    "wacc_monotonic": true,
+    "terminal_growth_monotonic": true,
+    "bridge_identity": true
+  },
+  "limitations": [
+    "Forecast paths are analyst judgments, not company guidance.",
+    "Microsoft and Salesforce are reference observations, not a peer-set valuation or a mechanical average.",
+    "Bridge excludes any unsourced adjustments for leases, preferred, or other claims.",
+    "Terminal-value share makes the long-run capex, WACC, and terminal-growth assumptions load-bearing."
+  ]
+}
