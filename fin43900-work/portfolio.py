@@ -4,7 +4,9 @@ All rates below are annual decimals: 0.035 represents 3.5%.
 Run with: python portfolio.py
 """
 
+import csv
 from math import sqrt
+from statistics import mean, stdev
 
 # Editable inputs
 SLEEVES = {
@@ -69,6 +71,116 @@ def portfolio_volatility(weights, covariances):
 def reserve_eligible_weight(weights, sleeves):
     """Return the total weight in reserve-eligible sleeves."""
     return sum(weights[name] for name in sleeves if sleeves[name]["reserve_eligible"])
+
+
+def long_only_mixes(asset_names, step=0.05):
+    """Yield every long-only allocation whose weights sum to 100% at the given step."""
+    units = round(1 / step)
+    if units <= 0 or abs(units * step - 1) > 1e-9:
+        raise ValueError("Step must divide evenly into 100%; for example, use 0.05.")
+
+    def build(index, remaining, partial):
+        if index == len(asset_names) - 1:
+            yield {**partial, asset_names[index]: remaining / units}
+            return
+        for allocation in range(remaining + 1):
+            yield from build(
+                index + 1,
+                remaining - allocation,
+                {**partial, asset_names[index]: allocation / units},
+            )
+
+    yield from build(0, units, {})
+
+
+def find_lowest_risk_mix(
+    sleeves, correlations, objective_return, minimum_reserve_weight, step=0.05
+):
+    """Return the feasible long-only mix with the lowest volatility, or None."""
+    validate_correlations(sleeves, correlations)
+    covariances = covariance_matrix(sleeves, correlations)
+    best_weights = None
+    best_volatility = None
+    for weights in long_only_mixes(list(sleeves), step):
+        if expected_return(weights, sleeves) < objective_return:
+            continue
+        if reserve_eligible_weight(weights, sleeves) < minimum_reserve_weight:
+            continue
+        volatility = portfolio_volatility(weights, covariances)
+        if best_volatility is None or volatility < best_volatility:
+            best_weights = weights
+            best_volatility = volatility
+    return best_weights
+
+
+def estimate_from_prices(csv_file, last_36_months=False):
+    """Estimate annualized returns, volatility, and correlations from monthly prices.
+
+    The CSV must put the date first, use oldest-first rows, and use one price
+    column per asset. Returns are historical estimates, not forecasts.
+    """
+    should_close = False
+    if isinstance(csv_file, (str, bytes)):
+        csv_file = open(csv_file, newline="", encoding="utf-8")
+        should_close = True
+    try:
+        rows = list(csv.DictReader(csv_file))
+    finally:
+        if should_close:
+            csv_file.close()
+    if not rows or not rows[0]:
+        raise ValueError("Price CSV must contain a header and at least two rows.")
+    columns = list(rows[0])
+    if len(columns) < 4 or columns[0].lower() != "date":
+        raise ValueError("Price CSV needs date first and at least three asset columns.")
+    names = columns[1:]
+    prices = {name: [float(row[name]) for row in rows] for name in names}
+    if any(len(values) < 2 for values in prices.values()):
+        raise ValueError("Each asset needs at least two monthly prices.")
+    returns = {
+        name: [
+            current / previous - 1
+            for previous, current in zip(values, values[1:])
+        ]
+        for name, values in prices.items()
+    }
+    if last_36_months:
+        returns = {name: values[-36:] for name, values in returns.items()}
+    if any(len(values) < 2 for values in returns.values()):
+        raise ValueError("At least three price rows are needed to estimate volatility.")
+    sleeves = {
+        name: {
+            "return": mean(values) * 12,
+            "volatility": stdev(values) * sqrt(12),
+            "reserve_eligible": False,
+        }
+        for name, values in returns.items()
+    }
+    correlations = {
+        left: {
+            right: 1.0 if left == right else _correlation(returns[left], returns[right])
+            for right in names
+        }
+        for left in names
+    }
+    return sleeves, correlations
+
+
+def _correlation(left_values, right_values):
+    """Return the sample correlation of two equal-length numeric sequences."""
+    left_mean = mean(left_values)
+    right_mean = mean(right_values)
+    numerator = sum(
+        (left - left_mean) * (right - right_mean)
+        for left, right in zip(left_values, right_values)
+    )
+    denominator = sqrt(
+        sum((left - left_mean) ** 2 for left in left_values)
+        * sum((right - right_mean) ** 2 for right in right_values)
+    )
+    if denominator == 0:
+        raise ValueError("Correlation cannot be estimated for a zero-variation return series.")
+    return numerator / denominator
 
 
 def equal_weight_portfolio(sleeves):
